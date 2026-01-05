@@ -33,15 +33,20 @@
       border: none;
       cursor: pointer;
     }
+    p{
+      text-align:center;
+      font-weight:bold;
+    }
   </style>
 </head>
 <body>
 
   <div class="login-box">
     <h2>Login</h2>
-    <input type="email" id="user" placeholder="Enter your Email" required>
-    <input type="password" id="pass" placeholder="Enter Password" required>
-    <button onclick="login()">Login</button>
+    <input type="text" id="user" placeholder="Enter ID">
+    <input type="password" id="pass" placeholder="Enter Password">
+    <button type="button" onclick="login()">Login</button>
+    <p id="msg"></p>
   </div>
 
   <script>
@@ -49,15 +54,27 @@
       let user = document.getElementById("user").value;
       let pass = document.getElementById("pass").value;
 
-      // Check if fields are filled
       if (user.trim() === "" || pass.trim() === "") {
-        alert("Please enter email and password");
+        document.getElementById("msg").innerHTML = "Please fill all fields ❗";
+        document.getElementById("msg").style.color = "red";
         return;
       }
 
-      // Allow login for ANY email & ANY password
-      localStorage.setItem("loggedUser", user);  // store logged-in email
-      window.location.href = "tracker.html";     // redirect
+      // ✅ ADMIN LOGIN CHECK
+      if (user === "admin" && pass === "123") {
+        localStorage.setItem("loggedUser", user);
+        document.getElementById("msg").style.color = "green";
+        document.getElementById("msg").innerHTML = "Login Successful ✅";
+        
+        // redirect after 1 second
+        setTimeout(function(){
+          window.location.href = "tracker.html";
+        },1000);
+
+      } else {
+        document.getElementById("msg").innerHTML = "Invalid ID or Password ❌";
+        document.getElementById("msg").style.color = "red";
+      }
     }
   </script>
 
